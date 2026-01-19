@@ -62,8 +62,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-                "http://localhost:5173",          // local React
-                "https://your-frontend.onrender.com" // prod frontend
+                "http://localhost:5173",
+                "https://habit-tracker-front-mu.vercel.app"
         ));
 
         config.setAllowedMethods(List.of(
