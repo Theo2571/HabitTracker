@@ -19,7 +19,11 @@ spring:
     username: postgres
     password: postgres
 
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
+
