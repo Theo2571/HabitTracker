@@ -2,6 +2,8 @@ package org.example.habittracker.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Task {
 
@@ -13,6 +15,9 @@ public class Task {
 
     private boolean completed;
 
+    @Column(name = "task_date")
+    private LocalDate date;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -23,6 +28,14 @@ public class Task {
         this.title = title;
         this.user = user;
         this.completed = false;
+        this.date = LocalDate.now();
+    }
+
+    public Task(String title, User user, LocalDate date) {
+        this.title = title;
+        this.user = user;
+        this.completed = false;
+        this.date = date;
     }
 
     public Long getId() {
@@ -43,5 +56,13 @@ public class Task {
 
     public User getUser() {
         return user;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

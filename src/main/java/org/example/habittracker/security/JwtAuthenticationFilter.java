@@ -31,35 +31,47 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        // 1️⃣ Если заголовка нет или он не Bearer — идём дальше
+        // 1️⃣ Нет Bearer — просто идём дальше
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2️⃣ Достаём токен
         String jwt = authHeader.substring(7);
-        String username = jwtService.extractUsername(jwt);
 
-        // 3️⃣ Если пользователь ещё не в контексте
-        if (username != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+        try {
+            // 2️⃣ Проверяем токен
+            String username = jwtService.extractUsername(jwt);
 
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(
-                            username,
-                            null,
-                            List.of()
-                    );
+            if (username != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            authToken.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
-            );
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(
+                                username,
+                                null,
+                                List.of()
+                        );
 
-            // 4️⃣ Говорим Spring: пользователь АВТОРИЗОВАН
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
+
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+
+            filterChain.doFilter(request, response);
+
+        } catch (Exception ex) {
+            // 3️⃣ ЛЮБАЯ проблема с JWT → 401
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("""
+                {
+                  "error": "UNAUTHORIZED",
+                  "message": "JWT token is invalid or expired"
+                }
+            """);
         }
-
-        filterChain.doFilter(request, response);
     }
 }

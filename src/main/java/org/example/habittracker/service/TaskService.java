@@ -1,5 +1,6 @@
 package org.example.habittracker.service;
 
+import org.example.habittracker.dto.CalendarDataResponse;
 import org.example.habittracker.dto.TaskResponse;
 import org.example.habittracker.model.Task;
 import org.example.habittracker.model.User;
@@ -8,7 +9,11 @@ import org.example.habittracker.repository.UserRepository;
 import org.example.habittracker.security.SecurityUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -34,19 +39,58 @@ public class TaskService {
                 .map(task -> new TaskResponse(
                         task.getId(),
                         task.getTitle(),
-                        task.isCompleted()
+                        task.isCompleted(),
+                        task.getDate()
                 ))
                 .toList();
     }
 
-    public TaskResponse createTask(String title) {
+    public TaskResponse createTask(String title, LocalDate date) {
         User user = getCurrentUser();
-        Task task = taskRepository.save(new Task(title, user));
+        LocalDate taskDate = date != null ? date : LocalDate.now();
+        Task task = taskRepository.save(new Task(title, user, taskDate));
         return new TaskResponse(
                 task.getId(),
                 task.getTitle(),
-                task.isCompleted()
+                task.isCompleted(),
+                task.getDate()
         );
+    }
+
+    public List<TaskResponse> getTasksByDate(LocalDate date) {
+        User user = getCurrentUser();
+        return taskRepository.findAllByUserAndDate(user, date).stream()
+                .map(task -> new TaskResponse(
+                        task.getId(),
+                        task.getTitle(),
+                        task.isCompleted(),
+                        task.getDate()
+                ))
+                .toList();
+    }
+
+    public CalendarDataResponse getCalendarData(YearMonth yearMonth) {
+        User user = getCurrentUser();
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+        
+        List<Task> tasks = taskRepository.findAllByUserAndDateBetween(user, startDate, endDate);
+        
+        Map<String, List<TaskResponse>> tasksByDate = tasks.stream()
+                .collect(Collectors.groupingBy(
+                        task -> task.getDate().toString(),
+                        Collectors.mapping(
+                                task -> new TaskResponse(
+                                        task.getId(),
+                                        task.getTitle(),
+                                        task.isCompleted(),
+                                        task.getDate()
+                                ),
+                                Collectors.toList()
+                        )
+                ));
+        
+        return new CalendarDataResponse(tasksByDate);
     }
 
     public void toggleTask(Long id) {
