@@ -1,5 +1,6 @@
 package org.example.habittracker.security;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,8 +63,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
 
-        } catch (Exception ex) {
-            // 3️⃣ ЛЮБАЯ проблема с JWT → 401
+        } catch (JwtException ex) {
+            // Только ошибки JWT (невалидный/просроченный токен) → 401
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.getWriter().write("""
@@ -73,5 +74,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             """);
         }
+        // Исключения из контроллера/сервиса не перехватываем — уходят в GlobalExceptionHandler / 500
     }
 }

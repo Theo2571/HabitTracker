@@ -9,6 +9,8 @@ public class CreateTaskRequest {
     private String title;
 
     private LocalDate date;
+    private String frequency;
+    private String reminder;
 
     public CreateTaskRequest() {}
 
@@ -22,5 +24,21 @@ public class CreateTaskRequest {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
+
+    public String getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(String reminder) {
+        this.reminder = reminder;
     }
 }

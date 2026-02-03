@@ -39,6 +39,9 @@ public class SecurityConfig {
                         // Auth
                         .requestMatchers("/auth/**").permitAll()
 
+                        // Tasks & Stats — только для аутентифицированного пользователя (JWT)
+                        .requestMatchers("/tasks/**", "/stats/**").authenticated()
+
                         // Everything else
                         .anyRequest().authenticated()
                 )
@@ -61,10 +64,8 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "https://habit-tracker-front-mu.vercel.app"
-        ));
+        // Разрешаем любые домены
+        config.setAllowedOriginPatterns(List.of("*"));
 
         config.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS"

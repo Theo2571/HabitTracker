@@ -12,7 +12,7 @@
 4||10|C|G
 4||10|T|G</Grants>
       <ServerVersion>16.11</ServerVersion>
-      <StartupTime>1769177564</StartupTime>
+      <StartupTime>1770139014</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -4165,8 +4165,8 @@ false posixrules
     </table>
     <table id="268" parent="264" name="task">
       <DetailsLevel>2</DetailsLevel>
-      <ObjectId>16386</ObjectId>
-      <StateNumber>750</StateNumber>
+      <ObjectId>16570</ObjectId>
+      <StateNumber>965</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
@@ -4270,53 +4270,77 @@ false posixrules
       <DefaultExpression>nextval(&apos;task_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>732</StateNumber>
+      <StateNumber>897</StateNumber>
       <StoredType>bigint|0s</StoredType>
+      <SequenceId>16569</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="284" parent="268" name="completed">
+    <column id="284" parent="268" name="title">
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>732</StateNumber>
-      <StoredType>boolean|0s</StoredType>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="285" parent="268" name="title">
-      <Position>3</Position>
-      <StateNumber>732</StateNumber>
+      <StateNumber>897</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
+    <column id="285" parent="268" name="completed">
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>897</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
     <column id="286" parent="268" name="user_id">
+      <NotNull>1</NotNull>
       <Position>4</Position>
-      <StateNumber>749</StateNumber>
+      <StateNumber>897</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="287" parent="268" name="fkbhwpp8tr117vvbxhf5sbkdkc9">
+    <column id="287" parent="268" name="task_date">
+      <DefaultExpression>CURRENT_DATE</DefaultExpression>
+      <Position>5</Position>
+      <StateNumber>915</StateNumber>
+      <StoredType>date|0s</StoredType>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="288" parent="268" name="frequency">
+      <Position>6</Position>
+      <StateNumber>965</StateNumber>
+      <StoredType>varchar(50)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="289" parent="268" name="reminder">
+      <Position>7</Position>
+      <StateNumber>965</StateNumber>
+      <StoredType>varchar(500)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <foreign-key id="290" parent="268" name="fk_task_user">
       <ColNames>user_id</ColNames>
-      <ObjectId>16407</ObjectId>
-      <StateNumber>750</StateNumber>
+      <ObjectId>16577</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <StateNumber>897</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>16397</RefTableId>
+      <RefTableId>16559</RefTableId>
     </foreign-key>
-    <index id="288" parent="268" name="task_pkey">
+    <index id="291" parent="268" name="task_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16390</ObjectId>
+      <ObjectId>16575</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>732</StateNumber>
+      <StateNumber>897</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="289" parent="268" name="task_pkey">
+    <key id="292" parent="268" name="task_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16391</ObjectId>
+      <ObjectId>16576</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>732</StateNumber>
-      <UnderlyingIndexId>16390</UnderlyingIndexId>
+      <StateNumber>897</StateNumber>
+      <UnderlyingIndexId>16575</UnderlyingIndexId>
     </key>
-    <column id="290" parent="269" name="id">
+    <column id="293" parent="269" name="id">
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4325,27 +4349,27 @@ false posixrules
       <SequenceId>16558</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="291" parent="269" name="username">
+    <column id="294" parent="269" name="username">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>895</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="292" parent="269" name="password">
+    <column id="295" parent="269" name="password">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>895</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="293" parent="269" name="bio">
+    <column id="296" parent="269" name="bio">
       <Position>4</Position>
       <StateNumber>899</StateNumber>
       <StoredType>text|0s</StoredType>
       <TypeId>25</TypeId>
     </column>
-    <column id="294" parent="269" name="created_at">
+    <column id="297" parent="269" name="created_at">
       <DefaultExpression>now()</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>5</Position>
@@ -4353,13 +4377,13 @@ false posixrules
       <StoredType>timestamp|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="295" parent="269" name="email">
+    <column id="298" parent="269" name="email">
       <Position>6</Position>
       <StateNumber>903</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="296" parent="269" name="users_pkey">
+    <index id="299" parent="269" name="users_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16565</ObjectId>
@@ -4368,7 +4392,7 @@ false posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="297" parent="269" name="users_username_key">
+    <index id="300" parent="269" name="users_username_key">
       <ColNames>username</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16567</ObjectId>
@@ -4379,7 +4403,7 @@ false posixrules
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <index id="298" parent="269" name="users_email_key">
+    <index id="301" parent="269" name="users_email_key">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16583</ObjectId>
@@ -4390,20 +4414,20 @@ false posixrules
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="299" parent="269" name="users_pkey">
+    <key id="302" parent="269" name="users_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16566</ObjectId>
       <Primary>1</Primary>
       <StateNumber>895</StateNumber>
       <UnderlyingIndexId>16565</UnderlyingIndexId>
     </key>
-    <key id="300" parent="269" name="users_username_key">
+    <key id="303" parent="269" name="users_username_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16568</ObjectId>
       <StateNumber>895</StateNumber>
       <UnderlyingIndexId>16567</UnderlyingIndexId>
     </key>
-    <key id="301" parent="269" name="users_email_key">
+    <key id="304" parent="269" name="users_email_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16584</ObjectId>
       <StateNumber>903</StateNumber>
